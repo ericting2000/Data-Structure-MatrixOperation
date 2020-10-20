@@ -22,7 +22,7 @@ int main(void)
             transposition(matrix_num);
         }
         if (command == 5){
-
+            addition(matrix_num);
         }
         if (command == 6){
 

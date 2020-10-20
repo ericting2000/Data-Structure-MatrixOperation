@@ -154,6 +154,25 @@ void print_matrix(char name[100], char type, int numbs){
             printf("\n");
         }
     }
+    if(type == 'a'){
+        //printf("'A'CHECK\n");
+        int k = 1;
+        for(int i = 0; i < a[0][0].row; i++){
+            for(int j = 0; j < a[0][0].col; j++){
+                //printf("i = %d, j = %d\n", i, j);
+                //printf("a[0][%d].row = %d,a[0][%d].col = %d\n", k, a[0][k].row, k, a[0][k].col);
+                if(i == a[0][k].row && j == a[0][k].col){
+                    //printf("check\n");
+                    printf("%d ", a[0][k].value);
+                    k++;
+                }
+                else
+                    printf("0 ");
+            }
+            printf("\n");
+        }
+    }
+    return;
 }
 
 void transposition(int numbs){
@@ -180,7 +199,8 @@ void transposition(int numbs){
 }
 
 void addition(int numbs){
-    char n1[100], n2[100];
+    char name[10]={};
+    char n1[100], n2[100], index1 = 0, index2 = 0, cnt1 = 0, cnt2 = 0;
     if (numbs == 0){
         printf("沒有矩陣可做加法運算\n");
         return;
@@ -190,6 +210,101 @@ void addition(int numbs){
         return;
     }
     printf("現有%d個矩陣可供進行加法運算，請選擇並輸入兩個矩陣名稱進行加法，格式如下(a b)\n", numbs);
+    scanf("%s%s", n1, n2);
+    while(strcmp(m[index1][0].name, n1) != 0){
+        index1++;
+        cnt1++;
+        if(cnt1 == numbs){
+            printf("有矩陣名稱輸入錯誤，找不到此矩陣\n");
+            return;
+        }
+    }
+    while(strcmp(m[index2][0].name, n2) != 0){
+        index2++;
+        cnt2++;
+        if(cnt2 == numbs){
+            printf("有矩陣名稱輸入錯誤，找不到此矩陣\n");
+            return;
+        }
+    }
+    if(m[index1][0].row == m[index2][0].row && m[index1][0].col == m[index2][0].col){
+        int count = 0, k = 1, r = 1, i = 1;
+        a[0][0].row = m[index1][0].row;
+        a[0][0].col = m[index1][0].col;
+        //printf("m[index1][0].value is %d\n", m[index1][0].value);
+        //printf("m[index2][0].value is %d\n", m[index2][0].value);
+        //printf("row for a is %d, col for a is %d\n", a[0][0].row, a[0][0].col);
+        while(i <= m[index1][0].value){
+            printf("i = %d\n", i);
+            if(m[index1][i].row < m[index2][k].row){
+                printf("condition_1\n");
+                printf("m[%d][%d].value = %d\n", index1, i, m[index1][i].value);
+                a[0][r].row = m[index1][i].row;
+                a[0][r].col = m[index1][i].col;
+                a[0][r].value = m[index1][i].value;
+                printf("a[0][%d].value is %d\n", r, a[0][r].value);
+                count++;
+                r++;
+                i++;
+                continue;
+            }
+            if(m[index1][i].row == m[index2][k].row && m[index1][i].col < m[index2][k].col){
+                printf("condition_2\n");
+                printf("m[%d][%d].value = %d\n", index1, i, m[index1][i].value);
+                a[0][r].row = m[index1][i].row;
+                a[0][r].col = m[index1][i].col;
+                a[0][r].value = m[index1][i].value;
+                printf("a[0][%d].value is %d\n", r, a[0][r].value);
+                count++;
+                r++;
+                i++;
+                continue;
+            }
+            if(m[index1][i].row == m[index2][k].row && m[index1][i].col == m[index2][k].col){
+                printf("condition_3\n");
+                printf("m[%d][%d].value = %d, m[%d][%d].value = %d\n", index1, i, m[index1][i].value, index2, k, m[index2][k].value);
+                a[0][r].row = m[index1][i].row;
+                a[0][r].col = m[index1][i].col;
+                a[0][r].value = m[index1][i].value + m[index2][k].value;
+                printf("a[0][%d].value is %d\n", r, a[0][r].value);
+                k++;
+                count++;
+                r++;
+                i++;
+                continue;
+            }
+            if(m[index1][i].row == m[index2][k].row && m[index1][i].col > m[index2][k].col){
+                printf("condition_4\n");
+                printf("m[%d][%d].value = %d\n", index2, k, m[index2][k].value);
+                a[0][r].row = m[index2][k].row;
+                a[0][r].col = m[index2][k].col;
+                a[0][r].value = m[index2][k].value;
+                printf("a[0][%d].value is %d\n", r, a[0][r].value);
+                k++;
+                count++;
+                r++;
+                continue;
+            }
+            if(m[index1][i].row > m[index2][k].row){
+                printf("condition_5\n");
+                printf("m[%d][%d].value = %d\n", index2, k, m[index2][k].value);
+                a[0][r].row = m[index2][k].row;
+                a[0][r].col = m[index2][k].col;
+                a[0][r].value = m[index2][k].value;
+                printf("a[0][%d].value is %d\n", r, a[0][r].value);
+                k++;
+                count++;
+                r++;
+                continue;
+            }
+        }
+        a[0][0].value = count;
+        printf("count is now %d\n", count);
+        print_matrix(name, 'a', numbs);
+    }
+    else
+        printf("此二矩陣無法相加，請重新選擇\n");
+    return;
 }
 
 void expo(){
