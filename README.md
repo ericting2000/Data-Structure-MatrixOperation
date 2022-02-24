@@ -1,6 +1,6 @@
-# Data_Structure_Matrix_Operation
+# Data-Structure-MatrixOperation
 
-Matrix Operation HW from 109-1 Data_Structure
+Matrix Operation HW from 109-1 Data Structure
 
 Including the function below:
 (1). Insert matrix(up to 100 at most)
